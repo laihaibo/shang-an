@@ -1,0 +1,19 @@
+{
+  "name": "上岸 · 国考学习系统",
+  "short_name": "上岸",
+  "description": "行测刷题、限时模考、错题本、申论课程与面试练习",
+  "start_url": "/shang-an/",
+  "scope": "/shang-an/",
+  "display": "standalone",
+  "background_color": "#F4F5F7",
+  "theme_color": "#F4F5F7",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "/shang-an/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
