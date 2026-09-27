@@ -32,9 +32,8 @@ export function BottomNav() {
         {items.map((item) => {
           const active =
             item.href === "/"
-              ? pathname === "/" || pathname === "/shang-an" || pathname === "/shang-an/"
-              : pathname.startsWith(item.href.replace(/\/$/, "")) ||
-                pathname.includes(item.href);
+              ? pathname === "/"
+              : pathname.startsWith(item.href.replace(/\/$/, ""));
           const Icon = item.icon;
           return (
             <li key={item.href} className="flex-1">

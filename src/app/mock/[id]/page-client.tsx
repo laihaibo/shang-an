@@ -1,4 +1,7 @@
 "use client";
+/* 初始化 effect 在数据就绪后一次性从 localStorage 恢复模考会话并设置本地状态，
+   属预期行为（静态导出下不能用惰性初始化，会有 hydration 差异）。 */
+/* eslint-disable react-hooks/set-state-in-effect */
 
 import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -7,10 +10,11 @@ import { PageHeader } from "@/components/page-header";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import { QuestionView } from "@/components/question-view";
 import { useStore } from "@/lib/store";
 import { getPaper, questionMap, standardMockPapers } from "@/content/questions";
-import type { MockResult, ModuleKey } from "@/lib/types";
+import type { MockPaper, MockResult, ModuleKey } from "@/lib/types";
 import { MODULES } from "@/lib/types";
 import { MODULE_LABEL, formatDuration, cn, accuracy } from "@/lib/utils";
 
@@ -32,28 +36,59 @@ export default function MockRunnerPage({
 }) {
   const { id } = use(params);
   const router = useRouter();
-  const { state, addMockResult, recordAnswer } = useStore();
+  const { ready, state, addMockResult, recordAnswer, setMockSession } = useStore();
 
-  const paper = useMemo(() => {
-    if (id === "wrong-pack") {
-      return buildWrongPack(
-        state.wrong.filter((w) => !w.mastered).map((w) => w.questionId)
-      );
-    }
-    return getPaper(id) ?? standardMockPapers[0];
-  }, [id, state.wrong]);
-
-  const questions = useMemo(
-    () => paper.questionIds.map((qid) => questionMap[qid]).filter(Boolean),
-    [paper.questionIds]
-  );
-
+  const [phase, setPhase] = useState<"loading" | "empty" | "running">("loading");
+  const [paper, setPaper] = useState<MockPaper | null>(null);
   const [answers, setAnswers] = useState<Record<string, number | null>>({});
   const [idx, setIdx] = useState(0);
-  const [remaining, setRemaining] = useState(() => paper.minutes * 60);
-  const [startedAt] = useState(() => Date.now());
+  const [startedAt, setStartedAt] = useState(0);
+  const [deadline, setDeadline] = useState(0);
+  const [remaining, setRemaining] = useState(0);
+  const [restored, setRestored] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [wide, setWide] = useState(false);
   const submittedRef = useRef(false);
+
+  // 初始化 / 恢复：数据就绪后执行一次。
+  // 有未过期会话 → 按快照卷恢复（wrong-pack 不受错题列表变动影响）；已过期 → 丢弃重开。
+  const initRef = useRef(false);
+  useEffect(() => {
+    if (!ready || initRef.current) return;
+    initRef.current = true;
+    const saved = state.activeMock;
+    if (saved && saved.paper.id === id && Date.now() < saved.deadline) {
+      setPaper(saved.paper);
+      setAnswers(saved.answers);
+      setIdx(
+        Math.min(saved.index, Math.max(0, saved.paper.questionIds.length - 1))
+      );
+      setStartedAt(saved.startedAt);
+      setDeadline(saved.deadline);
+      setRemaining(Math.max(0, Math.floor((saved.deadline - Date.now()) / 1000)));
+      setRestored(true);
+      setPhase(saved.paper.questionIds.length === 0 ? "empty" : "running");
+      return;
+    }
+    const p =
+      id === "wrong-pack"
+        ? buildWrongPack(
+            state.wrong.filter((w) => !w.mastered).map((w) => w.questionId)
+          )
+        : getPaper(id) ?? standardMockPapers[0];
+    if (saved && saved.paper.id === id) setMockSession(null);
+    setPaper(p);
+    if (p.questionIds.length === 0) {
+      setPhase("empty");
+      return;
+    }
+    const now = Date.now();
+    setStartedAt(now);
+    setDeadline(now + p.minutes * 60000);
+    setRemaining(p.minutes * 60);
+    setPhase("running");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, id]);
 
   useEffect(() => {
     const onResize = () => setWide(window.innerWidth >= 768);
@@ -62,21 +97,29 @@ export default function MockRunnerPage({
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  const questions = useMemo(
+    () => (paper ? paper.questionIds.map((qid) => questionMap[qid]).filter(Boolean) : []),
+    [paper]
+  );
+
   const submit = useCallback(() => {
     if (submittedRef.current) return;
-    if (questions.length === 0) {
+    submittedRef.current = true;
+    if (!paper || questions.length === 0) {
       router.push("/mock/");
       return;
     }
-    submittedRef.current = true;
     const durationSeconds = Math.round((Date.now() - startedAt) / 1000);
+    // 未答题补 null 键，报告页据此显示未答数量
+    const finalAnswers: Record<string, number | null> = {};
+    for (const q of questions) finalAnswers[q.id] = answers[q.id] ?? null;
     const byModule = {} as MockResult["byModule"];
     for (const m of MODULES) {
       byModule[m.key as ModuleKey] = { total: 0, correct: 0, seconds: 0 };
     }
     let correct = 0;
     for (const q of questions) {
-      const sel = answers[q.id];
+      const sel = finalAnswers[q.id];
       const ok = sel === q.answer;
       byModule[q.module].total += 1;
       if (ok) {
@@ -91,48 +134,75 @@ export default function MockRunnerPage({
       startedAt,
       submittedAt: Date.now(),
       durationSeconds,
-      answers: { ...answers },
+      answers: finalAnswers,
       total: questions.length,
       correct,
       byModule,
     };
+    // addMockResult 会同时清除进行中的 activeMock
     addMockResult(result);
     for (const q of questions) {
-      const sel = answers[q.id];
+      const sel = finalAnswers[q.id];
       if (sel == null) continue;
       recordAnswer(q, sel, "mock", result.id);
     }
     router.push(`/mock/report/?id=${result.id}`);
   }, [answers, addMockResult, paper, questions, router, startedAt, recordAnswer]);
 
+  // 倒计时以 deadline 为基准，interval 不随作答重建，避免漂移
+  const submitRef = useRef(submit);
   useEffect(() => {
-    const t = setInterval(() => {
-      setRemaining((r) => {
-        if (r <= 1) {
-          clearInterval(t);
-          setTimeout(() => submit(), 0);
-          return 0;
-        }
-        return r - 1;
-      });
-    }, 1000);
+    submitRef.current = submit;
+  });
+
+  useEffect(() => {
+    if (phase !== "running" || !deadline) return;
+    const tick = () => {
+      const remain = Math.max(0, Math.floor((deadline - Date.now()) / 1000));
+      setRemaining(remain);
+      if (remain <= 0) {
+        setTimeout(() => submitRef.current(), 0);
+      }
+    };
+    tick();
+    const t = setInterval(tick, 1000);
     return () => clearInterval(t);
-  }, [submit]);
+  }, [phase, deadline]);
+
+  // 进行中的模考落盘，刷新/退出可恢复
+  useEffect(() => {
+    if (phase !== "running" || !paper || !deadline || !startedAt) return;
+    setMockSession({ paper, answers, index: idx, startedAt, deadline });
+  }, [phase, paper, answers, idx, startedAt, deadline, setMockSession]);
 
   const current = questions[idx];
   const answeredCount = questions.filter((q) => answers[q.id] != null).length;
+  const unansweredCount = questions.length - answeredCount;
 
   const onSelect = (i: number) => {
     if (!current) return;
     setAnswers((a) => ({ ...a, [current.id]: i }));
   };
 
-  if (questions.length === 0) {
+  if (phase === "loading") {
+    return (
+      <main aria-busy="true">
+        <PageHeader title="模考" backHref="/mock/" />
+        <Card className="h-40 animate-pulse" aria-hidden />
+      </main>
+    );
+  }
+
+  if (phase === "empty" || !paper) {
     return (
       <main>
         <PageHeader title="无法开始" backHref="/mock/" />
         <Card className="p-5">
-          <p className="text-[15px]">该试卷没有可用题目。</p>
+          <p className="text-[15px]">
+            {id === "wrong-pack"
+              ? "当前没有待复盘错题，先去刷题积累错题。"
+              : "该试卷没有可用题目。"}
+          </p>
           <Button className="mt-4" onClick={() => router.push("/mock/")}>
             返回模考
           </Button>
@@ -158,7 +228,7 @@ export default function MockRunnerPage({
               <Timer size={14} />
               {formatDuration(remaining)}
             </span>
-            <Button size="sm" onClick={submit}>
+            <Button size="sm" onClick={() => setConfirmOpen(true)}>
               <Flag size={16} /> 交卷
             </Button>
           </div>
@@ -173,6 +243,12 @@ export default function MockRunnerPage({
           {accuracy(answeredCount, questions.length)}% 已完成
         </span>
       </div>
+
+      {restored ? (
+        <p className="glass mb-3 rounded-[12px] px-3 py-2 text-[13px] text-[var(--ink-soft)]">
+          已恢复上次进度，倒计时按剩余时间继续。
+        </p>
+      ) : null}
 
       {wide ? (
         <div className="grid grid-cols-[1fr_240px] gap-4">
@@ -205,7 +281,7 @@ export default function MockRunnerPage({
           </div>
           <Card className="h-fit p-4">
             <p className="mb-2 text-[13px] font-medium">答题卡</p>
-            <div className="grid grid-cols-5 gap-1.5">
+            <div className="grid grid-cols-4 gap-1.5">
               {questions.map((q, i) => {
                 const ans = answers[q.id];
                 return (
@@ -214,7 +290,7 @@ export default function MockRunnerPage({
                     type="button"
                     onClick={() => setIdx(i)}
                     className={cn(
-                      "focus-ring aspect-square rounded-lg text-[12px] font-medium",
+                      "focus-ring aspect-square rounded-[12px] text-[12px] font-medium",
                       i === idx
                         ? "bg-[var(--accent)] text-white"
                         : ans != null
@@ -268,7 +344,7 @@ export default function MockRunnerPage({
             <p className="mb-2 text-[12px] font-medium text-[var(--ink-soft)]">
               答题卡
             </p>
-            <div className="glass grid grid-cols-8 gap-1.5 rounded-[16px] p-3">
+            <div className="glass grid grid-cols-6 gap-1.5 rounded-[20px] p-3">
               {questions.map((q, i) => {
                 const ans = answers[q.id];
                 return (
@@ -277,7 +353,7 @@ export default function MockRunnerPage({
                     type="button"
                     onClick={() => setIdx(i)}
                     className={cn(
-                      "focus-ring aspect-square rounded-lg text-[11px] font-medium",
+                      "focus-ring aspect-square rounded-[12px] text-[12px] font-medium",
                       i === idx
                         ? "bg-[var(--accent)] text-white"
                         : ans != null
@@ -306,6 +382,22 @@ export default function MockRunnerPage({
           </Badge>
         ))}
       </div>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        title="确认交卷？"
+        description={
+          unansweredCount > 0
+            ? `还有 ${unansweredCount} 题未作答，未答题按错误计。交卷后立即出报告。`
+            : "全部作答完毕，交卷后立即出报告。"
+        }
+        confirmLabel="交卷"
+        onConfirm={() => {
+          setConfirmOpen(false);
+          submit();
+        }}
+        onCancel={() => setConfirmOpen(false)}
+      />
     </main>
   );
 }

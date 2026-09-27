@@ -1,15 +1,20 @@
 "use client";
+/* 本页职责是从 localStorage 恢复刷题会话，恢复路径上的 setState 同步发生在
+   一次性 effect 中属于预期行为（静态导出下不能用惰性初始化，会有 hydration 差异）。 */
+/* eslint-disable react-hooks/set-state-in-effect */
 
-import { use, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { use, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Check, ChevronLeft, ChevronRight, RotateCcw, Shuffle } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { QuestionView } from "@/components/question-view";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/lib/store";
-import { MODULES, type ModuleKey } from "@/lib/types";
+import { MODULES, type ActivePractice, type ModuleKey } from "@/lib/types";
 import { questionsByModule } from "@/content/questions";
 import { cn } from "@/lib/utils";
+
+type SessionAnswer = { selected: number; correct: boolean };
 
 function isValidModule(key: string): key is ModuleKey {
   return MODULES.some((m) => m.key === key);
@@ -21,39 +26,40 @@ export default function PracticeModulePage({
   params: Promise<{ module: string }>;
 }) {
   const { module: moduleParam } = use(params);
+  const search = useSearchParams();
   const router = useRouter();
-  const { recordAnswer, state } = useStore();
+  const { ready, recordAnswer, state, setPracticeSession } = useStore();
   const highlight = state.settings.highlightKeywords;
 
   const [order, setOrder] = useState<number[]>([]);
   const [idx, setIdx] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [correctCount, setCorrectCount] = useState(0);
+  const [answers, setAnswers] = useState<Record<string, SessionAnswer>>({});
   const [done, setDone] = useState(false);
+  // 续作 / 搜索直达定位，只在数据就绪后执行一次
+  const restoredRef = useRef(false);
 
   const moduleInfo = useMemo(
     () => MODULES.find((m) => m.key === moduleParam),
     [moduleParam]
   );
+  const valid = isValidModule(moduleParam);
   const bank = useMemo(
-    () => (isValidModule(moduleParam) ? questionsByModule(moduleParam) : []),
-    [moduleParam]
+    () => (valid ? questionsByModule(moduleParam) : []),
+    [valid, moduleParam]
   );
 
   const sequence = useMemo(() => {
     if (order.length === bank.length) return order;
     return bank.map((_, i) => i);
-  }, [order, bank.length]);
+  }, [order, bank]);
 
-  if (!isValidModule(moduleParam) || !moduleInfo) {
-    return (
-      <main>
-        <PageHeader title="模块不存在" backHref="/practice/" />
-      </main>
-    );
-  }
+  const correctCount = useMemo(
+    () => Object.values(answers).filter((a) => a.correct).length,
+    [answers]
+  );
 
-  const current = bank[sequence[idx]];
+  const current = valid ? bank[sequence[idx]] : undefined;
+  const selected = current ? (answers[current.id]?.selected ?? null) : null;
 
   const startShuffle = () => {
     const arr = bank.map((_, i) => i);
@@ -63,24 +69,23 @@ export default function PracticeModulePage({
     }
     setOrder(arr);
     setIdx(0);
-    setSelected(null);
-    setCorrectCount(0);
+    setAnswers({});
     setDone(false);
   };
 
   const reset = () => {
     setOrder([]);
     setIdx(0);
-    setSelected(null);
-    setCorrectCount(0);
+    setAnswers({});
     setDone(false);
+    setPracticeSession(null);
   };
 
   const onSelect = (i: number) => {
-    if (selected != null || !current) return;
-    setSelected(i);
+    if (!current) return;
+    if (answers[current.id]) return; // 已答过的题不再计数
     const ok = recordAnswer(current, i, "practice");
-    if (ok) setCorrectCount((c) => c + 1);
+    setAnswers((a) => ({ ...a, [current.id]: { selected: i, correct: ok } }));
   };
 
   const goNext = () => {
@@ -89,32 +94,109 @@ export default function PracticeModulePage({
       return;
     }
     setIdx((i) => i + 1);
-    setSelected(null);
   };
 
   const goPrev = () => {
     setIdx((i) => Math.max(0, i - 1));
-    setSelected(null);
   };
 
-  const onKeyDown = (e: React.KeyboardEvent) => {
-    if (done || !current) return;
-    if (e.key >= "1" && e.key <= "4") {
-      e.preventDefault();
-      onSelect(Number(e.key) - 1);
+  // 恢复上次会话或定位 ?q= 指定的题目
+  useEffect(() => {
+    if (!ready || restoredRef.current || !isValidModule(moduleParam)) return;
+    restoredRef.current = true;
+    const bankNow = questionsByModule(moduleParam);
+    const saved = state.activePractice;
+    const qParam = search.get("q");
+
+    if (qParam) {
+      const qi = bankNow.findIndex((q) => q.id === qParam);
+      if (qi >= 0) {
+        // 已有会话包含该题 → 在会话内跳转；否则从该题开一组新的
+        if (
+          saved &&
+          saved.module === moduleParam &&
+          saved.order.length === bankNow.length &&
+          saved.order.includes(qi)
+        ) {
+          setOrder(saved.order);
+          setIdx(saved.order.indexOf(qi));
+          setAnswers(saved.answers);
+        } else {
+          setOrder([]);
+          setIdx(qi);
+          setAnswers({});
+          setPracticeSession(null);
+        }
+        return;
+      }
     }
-    if (e.key === "j" || e.key === "J") {
-      e.preventDefault();
-      goNext();
+
+    if (
+      saved &&
+      saved.module === moduleParam &&
+      (saved.order.length === bankNow.length || saved.order.length === 0) &&
+      Object.keys(saved.answers).length > 0
+    ) {
+      setOrder(saved.order);
+      setIdx(Math.min(saved.index, Math.max(0, bankNow.length - 1)));
+      setAnswers(saved.answers);
     }
-    if (e.key === "k" || e.key === "K") {
-      e.preventDefault();
-      goPrev();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, moduleParam]);
+
+  // 会话进度持久化；完成即清除
+  useEffect(() => {
+    if (!ready || !isValidModule(moduleParam) || done) return;
+    if (order.length === 0 && idx === 0 && Object.keys(answers).length === 0) {
+      return;
     }
-  };
+    const session: ActivePractice = {
+      module: moduleParam,
+      order: order.length === bank.length ? order : [],
+      index: idx,
+      answers,
+      savedAt: Date.now(),
+    };
+    setPracticeSession(session);
+  }, [ready, done, moduleParam, order, idx, answers, bank.length, setPracticeSession]);
+
+  useEffect(() => {
+    if (done) setPracticeSession(null);
+  }, [done, setPracticeSession]);
+
+  // 快捷键全局生效；焦点在输入控件时跳过
+  useEffect(() => {
+    if (done) return;
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName)) return;
+      if (e.key >= "1" && e.key <= "4") {
+        e.preventDefault();
+        onSelect(Number(e.key) - 1);
+      }
+      if (e.key === "j" || e.key === "J") {
+        e.preventDefault();
+        goNext();
+      }
+      if (e.key === "k" || e.key === "K") {
+        e.preventDefault();
+        goPrev();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
+  if (!valid || !moduleInfo) {
+    return (
+      <main>
+        <PageHeader title="模块不存在" backHref="/practice/" />
+      </main>
+    );
+  }
 
   return (
-    <main onKeyDown={onKeyDown} tabIndex={-1}>
+    <main>
       <PageHeader
         title={moduleInfo.short}
         description={moduleInfo.name}
@@ -169,6 +251,7 @@ export default function PracticeModulePage({
             onSelect={onSelect}
             highlight={highlight}
             showIndex={idx + 1}
+            split
           />
           <div className="mt-4 flex items-center justify-between">
             <Button variant="ghost" size="sm" onClick={goPrev} disabled={idx === 0}>
@@ -187,7 +270,7 @@ export default function PracticeModulePage({
                 />
               ))}
             </div>
-            <Button size="sm" onClick={goNext} disabled={selected == null}>
+            <Button size="sm" onClick={goNext}>
               {idx + 1 === sequence.length ? "完成" : "下一题"}
               <ChevronRight size={16} />
             </Button>

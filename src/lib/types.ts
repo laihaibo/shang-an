@@ -168,9 +168,29 @@ export type MockResult = {
 
 export type AppSettings = {
   theme: "system" | "light" | "dark";
-  remindEnabled: boolean;
-  remindHour: number;
   highlightKeywords: boolean;
+};
+
+/** 进行中的刷题会话，刷新/退出后可续作 */
+export type ActivePractice = {
+  module: ModuleKey;
+  /** 题目下标顺序，对应 questionsByModule(module) 的下标 */
+  order: number[];
+  index: number;
+  /** 本组已答记录，键为题目 id */
+  answers: Record<string, { selected: number; correct: boolean }>;
+  savedAt: number;
+};
+
+/** 进行中的模考（含 wrong-pack），交卷后清除 */
+export type ActiveMock = {
+  /** 完整试卷快照，wrong-pack 恢复时不依赖当时的错题列表 */
+  paper: MockPaper;
+  answers: Record<string, number | null>;
+  index: number;
+  startedAt: number;
+  /** epoch ms，倒计时以此为准 */
+  deadline: number;
 };
 
 export type AppState = {
@@ -182,9 +202,13 @@ export type AppState = {
   streakDays: number;
   lastStudyDate: string | null;
   totalQuestions: number;
+  activePractice: ActivePractice | null;
+  activeMock: ActiveMock | null;
 };
 
 export const STORAGE_KEY = "shang-an-state-v1";
+/** attempts 只保留最近 N 条，控制 localStorage 与导出体积 */
+export const MAX_ATTEMPTS = 5000;
 
 export function emptyState(): AppState {
   return {
@@ -194,13 +218,13 @@ export function emptyState(): AppState {
     mockResults: [],
     settings: {
       theme: "system",
-      remindEnabled: false,
-      remindHour: 21,
       highlightKeywords: true,
     },
     streakDays: 0,
     lastStudyDate: null,
     totalQuestions: 0,
+    activePractice: null,
+    activeMock: null,
   };
 }
 

@@ -23,7 +23,7 @@ const buttonVariants = cva(
           "border border-[color-mix(in_srgb,var(--foreground)_16%,transparent)] text-[var(--foreground)] hover:bg-[var(--accent-soft)]",
       },
       size: {
-        sm: "h-9 px-3 text-[13px]",
+        sm: "h-11 px-3.5 text-[13px]",
         md: "h-11 px-4 text-[15px]",
         lg: "h-12 px-5 text-[16px]",
         icon: "h-11 w-11",

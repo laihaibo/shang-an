@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/page-header";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useStore } from "@/lib/store";
 import { questionMap } from "@/content/questions";
 import { MODULES } from "@/lib/types";
@@ -54,7 +55,7 @@ function formatWrongMarkdown(
 }
 
 export default function WrongPage() {
-  const { state, setWrongMastered } = useStore();
+  const { state, ready, setWrongMastered } = useStore();
   const [onlyPending, setOnlyPending] = useState(true);
   const [copied, setCopied] = useState(false);
   const [moduleFilter, setModuleFilter] = useState<string | "all">("all");
@@ -96,7 +97,12 @@ export default function WrongPage() {
         title="错题本"
         description="自动收录做错的题。可复制为 Markdown，粘贴到笔记软件。"
         action={
-          <Button size="sm" onClick={copyAll} disabled={list.length === 0}>
+          <Button
+            size="sm"
+            onClick={copyAll}
+            disabled={list.length === 0}
+            aria-live="polite"
+          >
             {copied ? <CheckCheck size={16} /> : <Copy size={16} />}
             {copied ? "已复制" : "一键复制"}
           </Button>
@@ -118,12 +124,12 @@ export default function WrongPage() {
         >
           全部
         </Button>
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1.5">
           <button
             type="button"
             onClick={() => setModuleFilter("all")}
             className={cn(
-              "focus-ring rounded-full px-2.5 py-1 text-[12px]",
+              "focus-ring inline-flex min-h-[44px] items-center rounded-full px-4 text-[13px]",
               moduleFilter === "all"
                 ? "bg-[var(--accent)] text-white"
                 : "glass text-[var(--ink-soft)]"
@@ -137,7 +143,7 @@ export default function WrongPage() {
               type="button"
               onClick={() => setModuleFilter(m.key)}
               className={cn(
-                "focus-ring rounded-full px-2.5 py-1 text-[12px]",
+                "focus-ring inline-flex min-h-[44px] items-center rounded-full px-4 text-[13px]",
                 moduleFilter === m.key
                   ? "bg-[var(--accent)] text-white"
                   : "glass text-[var(--ink-soft)]"
@@ -149,7 +155,12 @@ export default function WrongPage() {
         </div>
       </div>
 
-      {list.length === 0 ? (
+      {!ready ? (
+        <div className="space-y-3">
+          <Skeleton className="h-28" />
+          <Skeleton className="h-28" />
+        </div>
+      ) : list.length === 0 ? (
         <Card className="p-8 text-center">
           <Filter size={28} className="mx-auto mb-3 text-[var(--muted)]" />
           <p className="font-medium">这里还是空的</p>
@@ -183,7 +194,7 @@ export default function WrongPage() {
                   {q.stem.length > 100 ? "…" : ""}
                 </Link>
                 {w.note ? (
-                  <p className="mt-2 rounded-[10px] bg-[color-mix(in_srgb,var(--foreground)_5%,transparent)] px-3 py-2 text-[13px] text-[var(--ink-soft)]">
+                  <p className="mt-2 rounded-[12px] bg-[color-mix(in_srgb,var(--foreground)_5%,transparent)] px-3 py-2 text-[13px] text-[var(--ink-soft)]">
                     笔记：{w.note}
                   </p>
                 ) : null}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
@@ -21,12 +21,7 @@ import {
 function ReportInner() {
   const search = useSearchParams();
   const id = search.get("id");
-  const { state } = useStore();
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    setReady(true);
-  }, []);
+  const { state, ready } = useStore();
 
   const result = id
     ? state.mockResults.find((r) => r.id === id)
@@ -36,6 +31,7 @@ function ReportInner() {
     return (
       <main>
         <PageHeader title="模考报告" backHref="/mock/" />
+        <Card className="h-64 animate-pulse" aria-hidden />
       </main>
     );
   }
@@ -139,7 +135,7 @@ function ReportInner() {
               <Link
                 key={q.id}
                 href={`/wrong/${q.id}/`}
-                className="glass focus-ring block rounded-[16px] p-4 hover:brightness-[1.03]"
+                className="glass focus-ring block rounded-[20px] p-4 hover:brightness-[1.03]"
               >
                 <div className="mb-1 flex flex-wrap items-center gap-2">
                   <Badge tone="accent">{MODULE_LABEL[q.module]}</Badge>

@@ -42,15 +42,6 @@ export function CardTitle({
   );
 }
 
-export function CardDescription({
-  className,
-  ...props
-}: HTMLAttributes<HTMLParagraphElement>) {
-  return (
-    <p className={cn("mt-1 text-[14px] text-[var(--ink-soft)]", className)} {...props} />
-  );
-}
-
 export function CardContent({
   className,
   ...props

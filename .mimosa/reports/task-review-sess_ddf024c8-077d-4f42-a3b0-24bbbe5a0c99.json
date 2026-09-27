@@ -1,0 +1,1206 @@
+{
+  "schema_version": "mimosa-task-review/v2",
+  "run_id": "20260927T003520139Z-21400-bc1b31d32e4f",
+  "run_status": "inconclusive",
+  "errors": [
+    {
+      "stage": "candidate-select",
+      "target": "src/app/mock/report/page.tsx",
+      "reason": "candidate_limit_exceeded: 9 changed reviewable file(s) were not scanned because the limit is 20"
+    },
+    {
+      "stage": "scan",
+      "target": "src/lib/types.ts",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/lib/storage.ts",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/lib/store.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/components/confirm-dialog.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/app/me/page.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/components/question-view.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/app/practice/[module]/page-client.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/app/practice/[module]/page.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/app/mock/[id]/page-client.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/app/mock/page.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/app/page.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/app/search/page.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/content/questions/quantitative.ts",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/content/questions/judgment.ts",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/components/ui/input.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/components/bottom-nav.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/app/wrong/[id]/page.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "src/app/interview/page.tsx",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    }
+  ],
+  "coverage": {
+    "schema_version": "mimosa-hook-coverage/v1",
+    "status": "partial",
+    "scope": "hook_observed_diff",
+    "baseline": {
+      "complete": true,
+      "captured_files": 54,
+      "candidate_limit": 5000,
+      "truncated": false,
+      "enumeration_error_count": 0,
+      "snapshot_error_count": 0,
+      "compensated_target_count": 29
+    },
+    "change_tracking": {
+      "touched_observed": 29,
+      "touched_retained": 29,
+      "truncated": false,
+      "bash_mutation": true,
+      "bash_discovered": 29,
+      "bash_discovery_limit": 80,
+      "bash_discovery_truncated": false
+    },
+    "candidates": {
+      "eligible_files": 29,
+      "selected_files": 20,
+      "limit": 20,
+      "truncated": true
+    },
+    "scanning": {
+      "required_files": 18,
+      "scanned_files": 0,
+      "skipped_files": 0,
+      "failed_files": 18,
+      "project_checks_required": 0,
+      "project_checks_completed": 0
+    },
+    "notification": {
+      "eligible_findings": 0,
+      "detailed_findings": 0,
+      "detail_limit": 3,
+      "truncated": false
+    },
+    "reason_counts": {
+      "candidate_limit_exceeded": 1,
+      "scanner_failed": 18,
+      "project_check_failed": 19
+    },
+    "reasons": [
+      {
+        "code": "candidate_limit_exceeded",
+        "stage": "candidate-select",
+        "target": "src/app/mock/report/page.tsx",
+        "detail": "9 changed reviewable file(s) were not scanned because the limit is 20",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/lib/types.ts",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/lib/storage.ts",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/lib/store.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/components/confirm-dialog.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/me/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/components/question-view.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/practice/[module]/page-client.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/practice/[module]/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/mock/[id]/page-client.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/mock/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/search/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/content/questions/quantitative.ts",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/content/questions/judgment.ts",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/components/ui/input.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/components/bottom-nav.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/wrong/[id]/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/interview/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "candidate-select",
+        "target": "src/app/mock/report/page.tsx",
+        "detail": "candidate_limit_exceeded: 9 changed reviewable file(s) were not scanned because the limit is 20",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/lib/types.ts",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/lib/storage.ts",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/lib/store.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/components/confirm-dialog.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/me/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/components/question-view.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/practice/[module]/page-client.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/practice/[module]/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/mock/[id]/page-client.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/mock/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/search/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/content/questions/quantitative.ts",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/content/questions/judgment.ts",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/components/ui/input.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/components/bottom-nav.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/wrong/[id]/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/interview/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      }
+    ],
+    "reasons_truncated": false
+  },
+  "generated_at": "2026-09-27T00:35:20.139Z",
+  "session_id": "sess_ddf024c8-077d-4f42-a3b0-24bbbe5a0c99",
+  "target": ".",
+  "revision": "434e879dd024037b3f27c15e781ea677d887b801",
+  "rules_version": "unavailable",
+  "diff_hash": "fbfb37ed0765a283cb8f8e11eff69b066044fc2b8fe757d346096d40f12af2b8",
+  "diff": {
+    "algorithm": "sha256",
+    "changed_file_count": 18,
+    "changed_files": [
+      {
+        "file": "src/app/interview/page.tsx",
+        "ranges": [
+          {
+            "start": 9,
+            "end": 9
+          },
+          {
+            "start": 14,
+            "end": 14
+          },
+          {
+            "start": 24,
+            "end": 24
+          }
+        ],
+        "before_hash": "0fa6f845fc6503a783c4e83fb698f49b6996a4c829faae8b138d693d4ddbf358",
+        "after_hash": "362b4b1d9a1932fad4614cded0d1d4101f2f5d502f4be64633b7cbc5d1169046"
+      },
+      {
+        "file": "src/app/me/page.tsx",
+        "ranges": [
+          {
+            "start": 12,
+            "end": 12
+          },
+          {
+            "start": 19,
+            "end": 19
+          },
+          {
+            "start": 40,
+            "end": 40
+          },
+          {
+            "start": 51,
+            "end": 51
+          },
+          {
+            "start": 54,
+            "end": 58
+          },
+          {
+            "start": 64,
+            "end": 64
+          },
+          {
+            "start": 66,
+            "end": 66
+          },
+          {
+            "start": 72,
+            "end": 72
+          },
+          {
+            "start": 79,
+            "end": 88
+          },
+          {
+            "start": 90,
+            "end": 94
+          },
+          {
+            "start": 104,
+            "end": 104
+          },
+          {
+            "start": 110,
+            "end": 110
+          },
+          {
+            "start": 116,
+            "end": 116
+          },
+          {
+            "start": 122,
+            "end": 122
+          },
+          {
+            "start": 185,
+            "end": 185
+          },
+          {
+            "start": 192,
+            "end": 192
+          },
+          {
+            "start": 200,
+            "end": 200
+          },
+          {
+            "start": 241,
+            "end": 241
+          },
+          {
+            "start": 259,
+            "end": 272
+          }
+        ],
+        "before_hash": "e6b10b50e1fa97f175a96c958cafc0b27fd280e7e12e95b32e1a59dce6c8c341",
+        "after_hash": "2d674c08b7cf48b6bac1384be53dc6cd77c53d3c58532f4feae0b0e9ffdd6dd3"
+      },
+      {
+        "file": "src/app/mock/[id]/page-client.tsx",
+        "ranges": [
+          {
+            "start": 2,
+            "end": 4
+          },
+          {
+            "start": 13,
+            "end": 13
+          },
+          {
+            "start": 17,
+            "end": 17
+          },
+          {
+            "start": 39,
+            "end": 39
+          },
+          {
+            "start": 41,
+            "end": 42
+          },
+          {
+            "start": 45,
+            "end": 49
+          },
+          {
+            "start": 53,
+            "end": 92
+          },
+          {
+            "start": 100,
+            "end": 104
+          },
+          {
+            "start": 107,
+            "end": 108
+          },
+          {
+            "start": 113,
+            "end": 115
+          },
+          {
+            "start": 122,
+            "end": 122
+          },
+          {
+            "start": 137,
+            "end": 137
+          },
+          {
+            "start": 142,
+            "end": 142
+          },
+          {
+            "start": 145,
+            "end": 145
+          },
+          {
+            "start": 152,
+            "end": 153
+          },
+          {
+            "start": 155,
+            "end": 168
+          },
+          {
+            "start": 170,
+            "end": 176
+          },
+          {
+            "start": 180,
+            "end": 180
+          },
+          {
+            "start": 187,
+            "end": 196
+          },
+          {
+            "start": 201,
+            "end": 205
+          },
+          {
+            "start": 231,
+            "end": 231
+          },
+          {
+            "start": 247,
+            "end": 252
+          },
+          {
+            "start": 284,
+            "end": 284
+          },
+          {
+            "start": 293,
+            "end": 293
+          },
+          {
+            "start": 347,
+            "end": 347
+          },
+          {
+            "start": 356,
+            "end": 356
+          },
+          {
+            "start": 385,
+            "end": 400
+          }
+        ],
+        "before_hash": "753b0e15aaee4e2a94df5851d9096a64e78e874f39476cd26767b255be9a47c2",
+        "after_hash": "a86d108a56014c271ba6356c20f7ac895dd9d20bf0fd03dc0500d57b86fcb444"
+      },
+      {
+        "file": "src/app/mock/page.tsx",
+        "ranges": [
+          {
+            "start": 3,
+            "end": 3
+          },
+          {
+            "start": 13,
+            "end": 13
+          },
+          {
+            "start": 16,
+            "end": 24
+          },
+          {
+            "start": 30,
+            "end": 34
+          },
+          {
+            "start": 42,
+            "end": 61
+          },
+          {
+            "start": 110,
+            "end": 114
+          },
+          {
+            "start": 145,
+            "end": 145
+          }
+        ],
+        "before_hash": "6c68ff79f46a3f99c03835c650b67cb730a3b7f52a16affe29353281e41c7997",
+        "after_hash": "5b59ad903bc6292d4c967c17be87ce303c08160a1dab8afa96ca41b20f4211a1"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "ranges": [
+          {
+            "start": 3,
+            "end": 3
+          },
+          {
+            "start": 40,
+            "end": 51
+          }
+        ],
+        "before_hash": "3db1ab488be8eeec282ff19f90ba8a00ad0ea8e05c0680567b508caf38e68075",
+        "after_hash": "a39247c255e2fa7f4374bc653d5519945d28e94fa9e54000641daa5b5eb5db52"
+      },
+      {
+        "file": "src/app/practice/[module]/page-client.tsx",
+        "ranges": [
+          {
+            "start": 2,
+            "end": 4
+          },
+          {
+            "start": 6,
+            "end": 7
+          },
+          {
+            "start": 13,
+            "end": 13
+          },
+          {
+            "start": 17,
+            "end": 18
+          },
+          {
+            "start": 29,
+            "end": 29
+          },
+          {
+            "start": 31,
+            "end": 31
+          },
+          {
+            "start": 36,
+            "end": 36
+          },
+          {
+            "start": 38,
+            "end": 39
+          },
+          {
+            "start": 45,
+            "end": 45
+          },
+          {
+            "start": 47,
+            "end": 48
+          },
+          {
+            "start": 54,
+            "end": 54
+          },
+          {
+            "start": 56,
+            "end": 59
+          },
+          {
+            "start": 61,
+            "end": 62
+          },
+          {
+            "start": 72,
+            "end": 72
+          },
+          {
+            "start": 79,
+            "end": 79
+          },
+          {
+            "start": 81,
+            "end": 81
+          },
+          {
+            "start": 85,
+            "end": 86
+          },
+          {
+            "start": 88,
+            "end": 88
+          },
+          {
+            "start": 103,
+            "end": 131
+          },
+          {
+            "start": 133,
+            "end": 142
+          },
+          {
+            "start": 144,
+            "end": 151
+          },
+          {
+            "start": 153,
+            "end": 196
+          },
+          {
+            "start": 199,
+            "end": 199
+          },
+          {
+            "start": 254,
+            "end": 254
+          },
+          {
+            "start": 273,
+            "end": 273
+          }
+        ],
+        "before_hash": "e0931b1e2bd5f25db95441609107c768ee950d0444c5aa2391fac45b613967a0",
+        "after_hash": "f2fdc7ffcd56c9377dd965587d5b2eaa9357a99201f5f7054ebe820ec8d94c80"
+      },
+      {
+        "file": "src/app/practice/[module]/page.tsx",
+        "ranges": [
+          {
+            "start": 1,
+            "end": 2
+          },
+          {
+            "start": 15,
+            "end": 25
+          }
+        ],
+        "before_hash": "14ca839fa2545c38918337a8cdf3e121ed860a40a479bd68c243c03bb9bbafbd",
+        "after_hash": "ab8ba30ad20732237d9e2b30dcebfa9f273dac808c5a0212cffb259bec5b4899"
+      },
+      {
+        "file": "src/app/search/page.tsx",
+        "ranges": [
+          {
+            "start": 40,
+            "end": 40
+          }
+        ],
+        "before_hash": "926eef4a78be4ab81c4a67259432989601d871dfc8050bc26f84bafeec98224e",
+        "after_hash": "3f3b014dc1d8e9e27232d4d78d0b5b4b0d8ba6c4872ff859eba818cb6a2e1f7d"
+      },
+      {
+        "file": "src/app/wrong/[id]/page.tsx",
+        "ranges": [
+          {
+            "start": 1,
+            "end": 1
+          }
+        ],
+        "before_hash": "ab03869084df6cf3424ceed1c88e4ae4c6e57868d5273e30c0a8e4db4e739680",
+        "after_hash": "4a12a91851e87efd81a7436e583702df0a696a345517391e8dd7b4171b65c93c"
+      },
+      {
+        "file": "src/components/bottom-nav.tsx",
+        "ranges": [
+          {
+            "start": 35,
+            "end": 36
+          }
+        ],
+        "before_hash": "b4c6ec177a24daed8eea0c573344116f8e5ed3eca271e168bf365723af6dfd93",
+        "after_hash": "2d6860222f1615a72cbec9e1651cc166b841e21a48c75fd740a0412eb0324c7e"
+      },
+      {
+        "file": "src/components/confirm-dialog.tsx",
+        "ranges": [
+          {
+            "start": 1,
+            "end": 89
+          }
+        ],
+        "before_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "after_hash": "bbab9f963ea6a64199ddb094d0665775e77fd5d6edb2f6379a7746aa8754cb42"
+      },
+      {
+        "file": "src/components/question-view.tsx",
+        "ranges": [
+          {
+            "start": 3,
+            "end": 3
+          },
+          {
+            "start": 99,
+            "end": 99
+          },
+          {
+            "start": 107,
+            "end": 108
+          },
+          {
+            "start": 119,
+            "end": 135
+          },
+          {
+            "start": 138,
+            "end": 195
+          }
+        ],
+        "before_hash": "a5d6c5d66e28de916603d5982ae872915b754f077dfc217e43dcb70600a500ed",
+        "after_hash": "0aeb36ff2330fa0e815d74245c87b9e5259bb9af41a09bf51cb5ab027284fe25"
+      },
+      {
+        "file": "src/components/ui/input.tsx",
+        "ranges": [
+          {
+            "start": 3,
+            "end": 3
+          }
+        ],
+        "before_hash": "4bb6141e02aaf0a5c5ac4836d7a8ce33e40006ca02e955ac0fe996647c1a0f2f",
+        "after_hash": "ad445e66b7b1e9e418e1241cf4d478da0b434689fab1816f55415324543970b4"
+      },
+      {
+        "file": "src/content/questions/judgment.ts",
+        "ranges": [
+          {
+            "start": 194,
+            "end": 194
+          },
+          {
+            "start": 197,
+            "end": 197
+          }
+        ],
+        "before_hash": "8562151f340ba87aa82c5d9fd80f684e7670d40f27f0c4164e97d00ba6c49e47",
+        "after_hash": "f967765e34bc7803de97881f2a0675878e82d3558750123703a4b122d82be286"
+      },
+      {
+        "file": "src/content/questions/quantitative.ts",
+        "ranges": [
+          {
+            "start": 20,
+            "end": 21
+          },
+          {
+            "start": 24,
+            "end": 24
+          },
+          {
+            "start": 135,
+            "end": 138
+          }
+        ],
+        "before_hash": "76391041d29d355f1344dc0dcc256b42369a3ac210dd0a8cf98c27e57d8bc522",
+        "after_hash": "fde4a9a8ac16935f62026c10796d57a6207f49c004e4125fa8e93a46d2573bc6"
+      },
+      {
+        "file": "src/lib/storage.ts",
+        "ranges": [
+          {
+            "start": 5,
+            "end": 5
+          },
+          {
+            "start": 7,
+            "end": 8
+          },
+          {
+            "start": 11,
+            "end": 11
+          },
+          {
+            "start": 13,
+            "end": 13
+          },
+          {
+            "start": 22,
+            "end": 204
+          },
+          {
+            "start": 206,
+            "end": 207
+          },
+          {
+            "start": 209,
+            "end": 210
+          },
+          {
+            "start": 212,
+            "end": 215
+          },
+          {
+            "start": 217,
+            "end": 229
+          },
+          {
+            "start": 233,
+            "end": 241
+          },
+          {
+            "start": 300,
+            "end": 300
+          },
+          {
+            "start": 308,
+            "end": 308
+          },
+          {
+            "start": 310,
+            "end": 310
+          }
+        ],
+        "before_hash": "22a8d4f71a7079d6a8f5e419770aa761fb24b2f4d6689d1b022026a74def5632",
+        "after_hash": "68242da250b07a907d3a20863c06a9df9d007e89ad62f44ed0ca0891c388c77f"
+      },
+      {
+        "file": "src/lib/store.tsx",
+        "ranges": [
+          {
+            "start": 2,
+            "end": 4
+          },
+          {
+            "start": 28,
+            "end": 30
+          },
+          {
+            "start": 41,
+            "end": 42
+          },
+          {
+            "start": 49,
+            "end": 50
+          },
+          {
+            "start": 72,
+            "end": 72
+          },
+          {
+            "start": 74,
+            "end": 75
+          },
+          {
+            "start": 77,
+            "end": 77
+          },
+          {
+            "start": 79,
+            "end": 85
+          },
+          {
+            "start": 92,
+            "end": 97
+          },
+          {
+            "start": 100,
+            "end": 111
+          },
+          {
+            "start": 114,
+            "end": 114
+          },
+          {
+            "start": 116,
+            "end": 136
+          },
+          {
+            "start": 138,
+            "end": 139
+          },
+          {
+            "start": 141,
+            "end": 141
+          },
+          {
+            "start": 173,
+            "end": 173
+          },
+          {
+            "start": 221,
+            "end": 235
+          },
+          {
+            "start": 242,
+            "end": 248
+          },
+          {
+            "start": 252,
+            "end": 252
+          },
+          {
+            "start": 257,
+            "end": 263
+          },
+          {
+            "start": 269,
+            "end": 276
+          },
+          {
+            "start": 278,
+            "end": 278
+          },
+          {
+            "start": 280,
+            "end": 281
+          },
+          {
+            "start": 292,
+            "end": 330
+          }
+        ],
+        "before_hash": "6295f57604ccdf4e979e9c799d74f9b7fc6d9cc83c17978929730e46b2e44c52",
+        "after_hash": "5b9c993e3b6433760d1d8f2c19be436159dee7f289b91e54cf05cef3c9f1792d"
+      },
+      {
+        "file": "src/lib/types.ts",
+        "ranges": [
+          {
+            "start": 174,
+            "end": 195
+          },
+          {
+            "start": 205,
+            "end": 206
+          },
+          {
+            "start": 210,
+            "end": 211
+          },
+          {
+            "start": 226,
+            "end": 227
+          }
+        ],
+        "before_hash": "050c5161c4e79a0ae19b2f2726dd8f97aed4cbbbd365076c249017da12928966",
+        "after_hash": "b3783f154ef27c181d9b75ecd08b8563b4cefc1f83cad0c2c134fc209184b4d6"
+      }
+    ]
+  },
+  "timing": {
+    "started_at": "2026-09-27T00:35:17.288Z",
+    "completed_at": "2026-09-27T00:35:20.139Z",
+    "duration_ms": 2851,
+    "measurement": "hook_wall_clock"
+  },
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0,
+    "model_calls": 0,
+    "measurement": "known-zero"
+  },
+  "telemetry": {
+    "schemaVersion": "mimosa-gate-telemetry/v1",
+    "profile": "gate",
+    "operation": "Stop",
+    "outcome": "partial/INCONCLUSIVE",
+    "latencyMs": 2851,
+    "peakMemoryBytes": 86761472,
+    "memoryMeasurement": "max-observed-process-rss",
+    "scannedFiles": 0,
+    "cache": {
+      "hits": 0,
+      "misses": 0,
+      "measurement": "not-applicable"
+    },
+    "denyCount": 0,
+    "tokens": {
+      "input": 0,
+      "output": 0,
+      "total": 0,
+      "modelCalls": 0,
+      "measurement": "known-zero"
+    }
+  },
+  "finding_count": 0,
+  "rewake_finding_count": 0,
+  "evidence_boundary": {
+    "scan": "candidate",
+    "static_fix_verification": "observed_static_only",
+    "runtime_verification": "not_performed"
+  },
+  "finding_events": [
+    {
+      "finding_id": "mimosa-a7d66bbdc5ce155423ac697f",
+      "file": "src/app/practice/[module]/page-client.tsx",
+      "line": 133,
+      "rule_id": "security",
+      "severity": "high",
+      "category": "弱随机数",
+      "status": "candidate",
+      "decision": "advisory",
+      "at": "2026-09-26T23:56:13.153Z",
+      "evidence": {
+        "kind": "source",
+        "boundary": "candidate",
+        "producer": "deterministic",
+        "source": "semgrep",
+        "evidence_hash": "515c212056505ab1cb1cbb06830a49cfea322e6c6c97c16f10c277fd5d360bf2",
+        "runtime_oracle": false
+      }
+    },
+    {
+      "finding_id": "mimosa-a7d66bbdc5ce155423ac697f",
+      "file": "src/app/practice/[module]/page-client.tsx",
+      "line": 64,
+      "rule_id": "security",
+      "severity": "high",
+      "category": "弱随机数",
+      "status": "candidate",
+      "decision": "advisory",
+      "at": "2026-09-27T00:20:10.454Z",
+      "evidence": {
+        "kind": "source",
+        "boundary": "candidate",
+        "producer": "deterministic",
+        "source": "semgrep",
+        "evidence_hash": "515c212056505ab1cb1cbb06830a49cfea322e6c6c97c16f10c277fd5d360bf2",
+        "runtime_oracle": false
+      }
+    }
+  ],
+  "findings": [],
+  "artifacts": {
+    "immutable_report": ".mimosa/reports/task-review-sess_ddf024c8-077d-4f42-a3b0-24bbbe5a0c99-20260927T003520139Z-21400-bc1b31d32e4f.json",
+    "latest_report": ".mimosa/reports/task-review-sess_ddf024c8-077d-4f42-a3b0-24bbbe5a0c99.json",
+    "history_summary": ".mimosa/history/run-20260927T003520139Z-21400-bc1b31d32e4f.json"
+  }
+}

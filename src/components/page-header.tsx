@@ -22,7 +22,7 @@ export function PageHeader({
           {backHref ? (
             <Link
               href={backHref}
-              className="focus-ring mb-1 inline-flex items-center gap-0.5 text-[13px] text-[var(--ink-soft)] hover:text-[var(--accent)]"
+              className="focus-ring -my-2 -ml-2 inline-flex min-h-[44px] items-center gap-0.5 py-2 pl-2 pr-1.5 text-[13px] text-[var(--ink-soft)] hover:text-[var(--accent)]"
             >
               <ChevronLeft size={16} />
               返回

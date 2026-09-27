@@ -1,0 +1,339 @@
+{
+  "schemaVersion": "mimosa-finding-ledger-batch/v1",
+  "batchId": "stop-20260927T003520139Z-21400-bc1b31d32e4f",
+  "runId": "20260927T003520139Z-21400-bc1b31d32e4f",
+  "runStatus": "inconclusive",
+  "coverage": {
+    "status": "partial",
+    "reasons": [
+      {
+        "code": "candidate_limit_exceeded",
+        "stage": "candidate-select",
+        "target": "src/app/mock/report/page.tsx",
+        "detail": "9 changed reviewable file(s) were not scanned because the limit is 20",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/lib/types.ts",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/lib/storage.ts",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/lib/store.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/components/confirm-dialog.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/me/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/components/question-view.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/practice/[module]/page-client.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/practice/[module]/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/mock/[id]/page-client.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/mock/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/search/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/content/questions/quantitative.ts",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/content/questions/judgment.ts",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/components/ui/input.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/components/bottom-nav.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/wrong/[id]/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "src/app/interview/page.tsx",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "candidate-select",
+        "target": "src/app/mock/report/page.tsx",
+        "detail": "candidate_limit_exceeded: 9 changed reviewable file(s) were not scanned because the limit is 20",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/lib/types.ts",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/lib/storage.ts",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/lib/store.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/components/confirm-dialog.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/me/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/components/question-view.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/practice/[module]/page-client.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/practice/[module]/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/mock/[id]/page-client.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/mock/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/search/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/content/questions/quantitative.ts",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/content/questions/judgment.ts",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/components/ui/input.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/components/bottom-nav.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/wrong/[id]/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "src/app/interview/page.tsx",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affectsCompletion": true
+      }
+    ]
+  },
+  "source": {
+    "component": "zcode-hook",
+    "operationId": "Stop"
+  },
+  "revision": "434e879dd024037b3f27c15e781ea677d887b801",
+  "diffHash": "fbfb37ed0765a283cb8f8e11eff69b066044fc2b8fe757d346096d40f12af2b8",
+  "rulesVersion": "unavailable",
+  "sessionHash": "a47d4f58dd3fb1c50929d1f8839634f9421afbfbad03f42262494b2ec0a09ea0",
+  "reportRef": ".mimosa/reports/task-review-sess_ddf024c8-077d-4f42-a3b0-24bbbe5a0c99-20260927T003520139Z-21400-bc1b31d32e4f.json",
+  "events": [
+    {
+      "eventId": "hook-16646fe7f1cd0f2959c64982e18f65da",
+      "findingId": "mimosa-a7d66bbdc5ce155423ac697f",
+      "type": "finding_observed",
+      "at": "2026-09-26T23:56:13.153Z",
+      "identity": {
+        "projectRelativeFile": "src/app/practice/[module]/page-client.tsx",
+        "ruleId": "security",
+        "codeEvidenceHash": "515c212056505ab1cb1cbb06830a49cfea322e6c6c97c16f10c277fd5d360bf2",
+        "confidence": "stable"
+      },
+      "scope": "direct",
+      "line": 133,
+      "endLine": 133,
+      "reasonCode": "advisory",
+      "reportedToAgent": true,
+      "evidence": {
+        "kind": "source",
+        "boundary": "candidate",
+        "producer": "deterministic",
+        "evidenceHash": "515c212056505ab1cb1cbb06830a49cfea322e6c6c97c16f10c277fd5d360bf2"
+      },
+      "sequence": 0
+    },
+    {
+      "eventId": "hook-dd49df8df452871d42be36d588172747",
+      "findingId": "mimosa-a7d66bbdc5ce155423ac697f",
+      "type": "finding_observed",
+      "at": "2026-09-27T00:20:10.454Z",
+      "identity": {
+        "projectRelativeFile": "src/app/practice/[module]/page-client.tsx",
+        "ruleId": "security",
+        "codeEvidenceHash": "515c212056505ab1cb1cbb06830a49cfea322e6c6c97c16f10c277fd5d360bf2",
+        "confidence": "stable"
+      },
+      "scope": "direct",
+      "line": 64,
+      "endLine": 64,
+      "reasonCode": "advisory",
+      "reportedToAgent": true,
+      "evidence": {
+        "kind": "source",
+        "boundary": "candidate",
+        "producer": "deterministic",
+        "evidenceHash": "515c212056505ab1cb1cbb06830a49cfea322e6c6c97c16f10c277fd5d360bf2"
+      },
+      "sequence": 1
+    }
+  ],
+  "observedFindingIds": [],
+  "verifiedFiles": [],
+  "recordedAt": "2026-09-27T00:35:20.822Z"
+}

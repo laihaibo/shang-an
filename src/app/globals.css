@@ -5,7 +5,8 @@
 :root {
   --background: #f4f5f7;
   --foreground: #1c1c1e;
-  --muted: #8e8e93;
+  /* 浅色下需满足 4.5:1（DESIGN.md 无障碍要求），比 Apple systemGray 深半档 */
+  --muted: #6e6e73;
   --ink-soft: #636366;
   --glass: rgba(255, 255, 255, 0.62);
   --glass-strong: rgba(255, 255, 255, 0.78);
@@ -191,9 +192,23 @@ body {
   outline-offset: 2px;
 }
 
-/* Splash */
+/* Splash（仅首访展示；复访由 html.splash-off 在首帧前隐藏） */
+.splash-overlay {
+  background: var(--background);
+}
+
+html.splash-off .splash-overlay {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-overlay {
+    display: none;
+  }
+}
+
 .splash-out {
-  animation: splash-fade 0.55s ease forwards;
+  animation: splash-fade 0.25s ease forwards;
 }
 
 @keyframes splash-fade {
@@ -205,7 +220,7 @@ body {
 }
 
 .rise-in {
-  animation: rise 0.28s ease both;
+  animation: rise 0.22s ease both;
 }
 
 @keyframes rise {
@@ -220,7 +235,7 @@ body {
 }
 
 .shake {
-  animation: shake 0.28s ease;
+  animation: shake 0.18s ease;
 }
 
 @keyframes shake {
@@ -237,7 +252,7 @@ body {
 }
 
 .pop {
-  animation: pop 0.22s ease;
+  animation: pop 0.18s ease;
 }
 
 @keyframes pop {
@@ -265,6 +280,12 @@ body {
   .splash-out {
     opacity: 0;
     visibility: hidden;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
 

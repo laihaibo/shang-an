@@ -6,12 +6,12 @@ import { PageHeader } from "@/components/page-header";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { INTERVIEW_CATEGORIES } from "@/lib/types";
+import { INTERVIEW_CATEGORIES, type InterviewCategory } from "@/lib/types";
 import { interviewByCategory } from "@/content/interview";
 import { cn, formatDuration } from "@/lib/utils";
 
 export default function InterviewPage() {
-  const [cat, setCat] = useState<string>("all");
+  const [cat, setCat] = useState<InterviewCategory | "all">("all");
   const list =
     cat === "all"
       ? interviewByCategory("analysis")
@@ -21,7 +21,7 @@ export default function InterviewPage() {
             interviewByCategory("emergency"),
             interviewByCategory("situational")
           )
-      : interviewByCategory(cat as never);
+      : interviewByCategory(cat);
 
   return (
     <main>

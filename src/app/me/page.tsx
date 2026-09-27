@@ -5,17 +5,18 @@ import {
   Download,
   Upload,
   Trash2,
-  Bell,
   Moon,
   Sun,
   Monitor,
   Highlighter,
+  TriangleAlert,
 } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import { useStore } from "@/lib/store";
 import { MODULES } from "@/lib/types";
 import {
@@ -36,6 +37,7 @@ export default function MePage() {
   const {
     state,
     ready,
+    storageWarning,
     moduleProgress,
     importState,
     exportState,
@@ -46,48 +48,50 @@ export default function MePage() {
   } = useStore();
   const fileRef = useRef<HTMLInputElement>(null);
   const [msg, setMsg] = useState<string | null>(null);
+  const [confirmReset, setConfirmReset] = useState(false);
   const usage = ready ? localStorageUsageBytes() : 0;
+
+  const flash = (text: string) => {
+    setMsg(text);
+    setTimeout(() => setMsg(null), 3000);
+  };
 
   const onImport = async (file: File) => {
     try {
       const text = await file.text();
       const json = JSON.parse(text);
       const ok = importState(json);
-      setMsg(ok ? "导入成功" : "导入失败：格式不正确");
+      flash(ok ? "导入成功" : "导入失败：格式不正确");
     } catch {
-      setMsg("导入失败：不是合法 JSON");
+      flash("导入失败：不是合法 JSON");
     }
-    setTimeout(() => setMsg(null), 3000);
   };
 
   const onExport = () => {
     downloadJson(`shang-an-backup-${Date.now()}.json`, exportState());
-    setMsg("已导出备份文件");
-    setTimeout(() => setMsg(null), 3000);
-  };
-
-  const requestNotify = async () => {
-    if (!("Notification" in window)) {
-      setMsg("当前浏览器不支持通知");
-      setTimeout(() => setMsg(null), 3000);
-      return;
-    }
-    const perm = await Notification.requestPermission();
-    if (perm === "granted") {
-      updateSettings({ remindEnabled: true });
-      setMsg("已开启提醒（本地，无云端）");
-    } else {
-      setMsg("通知权限被拒绝");
-    }
-    setTimeout(() => setMsg(null), 3000);
+    flash("已导出备份文件");
   };
 
   return (
     <main>
       <PageHeader title="我的" description="进度、数据与设置。数据只存在本机。" />
 
+      {storageWarning ? (
+        <div
+          className="glass mb-4 flex items-start gap-2 rounded-[12px] border-l-2 border-l-[var(--warning)] px-4 py-3 text-[14px]"
+          role="alert"
+        >
+          <TriangleAlert size={18} className="mt-0.5 shrink-0 text-[var(--warning)]" />
+          <span>{storageWarning}</span>
+        </div>
+      ) : null}
+
       {msg ? (
-        <div className="glass mb-4 rounded-[14px] px-4 py-3 text-[14px]">
+        <div
+          className="glass mb-4 rounded-[12px] px-4 py-3 text-[14px]"
+          role="status"
+          aria-live="polite"
+        >
           {msg}
         </div>
       ) : null}
@@ -97,25 +101,25 @@ export default function MePage() {
         <div className="mt-2 grid grid-cols-2 gap-4 sm:grid-cols-4">
           <div>
             <p className="font-display text-[28px] font-semibold leading-none">
-              {state.totalQuestions}
+              {ready ? state.totalQuestions : "—"}
             </p>
             <p className="mt-1 text-[12px] text-[var(--ink-soft)]">累计作答</p>
           </div>
           <div>
             <p className="font-display text-[28px] font-semibold leading-none">
-              {state.streakDays}
+              {ready ? state.streakDays : "—"}
             </p>
             <p className="mt-1 text-[12px] text-[var(--ink-soft)]">连续天数</p>
           </div>
           <div>
             <p className="font-display text-[28px] font-semibold leading-none">
-              {wrongCount}
+              {ready ? wrongCount : "—"}
             </p>
             <p className="mt-1 text-[12px] text-[var(--ink-soft)]">错题</p>
           </div>
           <div>
             <p className="font-display text-[28px] font-semibold leading-none">
-              {pendingReviewCount}
+              {ready ? pendingReviewCount : "—"}
             </p>
             <p className="mt-1 text-[12px] text-[var(--ink-soft)]">待复盘</p>
           </div>
@@ -178,35 +182,22 @@ export default function MePage() {
           <CardTitle>偏好</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <label className="flex items-center justify-between gap-3 text-[14px]">
+          <label className="flex min-h-[44px] items-center justify-between gap-3 text-[14px]">
             <span className="inline-flex items-center gap-2">
               <Highlighter size={16} className="text-[var(--accent)]" />
               题干关键词高亮
             </span>
             <input
               type="checkbox"
-              className="h-5 w-5 accent-[var(--accent)]"
+              className="h-6 w-6 accent-[var(--accent)]"
               checked={state.settings.highlightKeywords}
               onChange={(e) =>
                 updateSettings({ highlightKeywords: e.target.checked })
               }
             />
           </label>
-          <label className="flex items-center justify-between gap-3 text-[14px]">
-            <span className="inline-flex items-center gap-2">
-              <Bell size={16} className="text-[var(--accent)]" />
-              学习提醒（浏览器通知）
-            </span>
-            {state.settings.remindEnabled ? (
-              <Badge tone="success">已开启</Badge>
-            ) : (
-              <Button size="sm" variant="secondary" onClick={requestNotify}>
-                开启
-              </Button>
-            )}
-          </label>
           <p className="text-[12px] text-[var(--muted)]">
-            提醒仅在本机请求通知权限，不发送到任何服务器。
+            关闭后题干按普通文本显示，适合打印或截图。
           </p>
         </CardContent>
       </Card>
@@ -247,16 +238,7 @@ export default function MePage() {
                 e.target.value = "";
               }}
             />
-            <Button
-              variant="ghost"
-              onClick={() => {
-                if (confirm("确定清空本机全部学习数据？此操作不可恢复。")) {
-                  resetState();
-                  setMsg("已清空");
-                  setTimeout(() => setMsg(null), 2000);
-                }
-              }}
-            >
+            <Button variant="ghost" onClick={() => setConfirmReset(true)}>
               <Trash2 size={16} /> 清空数据
             </Button>
           </div>
@@ -274,6 +256,20 @@ export default function MePage() {
           <Badge tone="accent">数据在本机</Badge>
         </div>
       </Card>
+
+      <ConfirmDialog
+        open={confirmReset}
+        title="清空本机全部学习数据？"
+        description="作答记录、错题本与模考成绩都会删除，且不可恢复。清空前建议先导出备份。"
+        confirmLabel="清空"
+        danger
+        onConfirm={() => {
+          setConfirmReset(false);
+          resetState();
+          flash("已清空");
+        }}
+        onCancel={() => setConfirmReset(false)}
+      />
     </main>
   );
 }

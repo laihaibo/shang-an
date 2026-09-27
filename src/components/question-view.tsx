@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { cn, extractKeywords } from "@/lib/utils";
 import type { Question } from "@/lib/types";
 import { Badge } from "./ui/badge";
@@ -96,6 +96,7 @@ export function QuestionView({
   onSelect,
   highlight = true,
   showIndex,
+  split = false,
 }: {
   question: Question;
   mode: "practice" | "mock" | "review";
@@ -103,6 +104,8 @@ export function QuestionView({
   onSelect?: (index: number) => void;
   highlight?: boolean;
   showIndex?: number;
+  /** 桌面端双栏：题干居左，选项与解析居右 */
+  split?: boolean;
 }) {
   const keywords = useMemo(
     () => extractKeywords(question.stem, highlight ? 2 : 0),
@@ -113,82 +116,83 @@ export function QuestionView({
 
   return (
     <Card className="rise-in p-5">
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        {showIndex != null ? (
-          <Badge tone="accent">第 {showIndex} 题</Badge>
-        ) : null}
-        {question.tags.map((t) => (
-          <Badge key={t}>{t}</Badge>
-        ))}
-      </div>
-      <QuestionMaterialBlock material={question.material} />
-      <p className="text-[16px] font-medium leading-relaxed">
-        <HighlightedText
-          text={question.stem}
-          keywords={keywords}
-          enabled={highlight}
-        />
-      </p>
-      <ul className="mt-4 space-y-2">
-        {question.options.map((opt, i) => {
-          const selected = selectedIndex === i;
-          const isAnswer = mode !== "mock" && i === question.answer;
-          const state = revealed
-            ? isAnswer
-              ? "correct"
-              : selected
-                ? "wrong"
-                : "idle"
-            : selected
-              ? "selected"
-              : "idle";
-          return (
-            <li key={i}>
-              <button
-                type="button"
-                disabled={mode === "review" || (mode === "practice" && selectedIndex != null)}
-                onClick={() => onSelect?.(i)}
-                className={cn(
-                  "focus-ring w-full rounded-[14px] border px-4 py-3 text-left text-[15px] leading-relaxed transition-colors",
-                  state === "idle" &&
-                    "border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] hover:border-[var(--accent)] hover:bg-[var(--accent-soft)]",
-                  state === "selected" &&
-                    "border-[var(--accent)] bg-[var(--accent-soft)]",
-                  state === "correct" &&
-                    "border-[var(--success)] bg-[var(--success-soft)]",
-                  state === "wrong" &&
-                    "border-[var(--danger)] bg-[var(--danger-soft)] shake"
-                )}
-              >
-                <span className="mr-2 font-semibold text-[var(--ink-soft)]">
-                  {optionLabels[i]}
-                </span>
-                {opt}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      {revealed ? (
-        <div
-          className={cn(
-            "mt-4 rounded-[14px] p-4 text-[14px] leading-relaxed",
-            correct
-              ? "bg-[var(--success-soft)]"
-              : "bg-[color-mix(in_srgb,var(--foreground)_6%,transparent)]"
-          )}
-        >
-          <p className="mb-1 font-semibold">
-            {correct ? "回答正确" : `正确答案 ${optionLabels[question.answer]}`}
+      <div className={cn(split && "lg:grid lg:grid-cols-[1.15fr_1fr] lg:gap-8")}>
+        <div className="min-w-0">
+          <div className="mb-3 flex flex-wrap items-center gap-2">
+            {showIndex != null ? (
+              <Badge tone="accent">第 {showIndex} 题</Badge>
+            ) : null}
+            {question.tags.map((t) => (
+              <Badge key={t}>{t}</Badge>
+            ))}
+          </div>
+          <QuestionMaterialBlock material={question.material} />
+          <p className="text-[16px] font-medium leading-relaxed">
+            <HighlightedText
+              text={question.stem}
+              keywords={keywords}
+              enabled={highlight}
+            />
           </p>
-          <p className="text-[var(--ink-soft)]">{question.analysis}</p>
         </div>
-      ) : null}
+        <div className={cn(split && "mt-4 lg:mt-0")}>
+          <ul className={cn("space-y-2", !split && "mt-4")}>
+            {question.options.map((opt, i) => {
+              const selected = selectedIndex === i;
+              const isAnswer = mode !== "mock" && i === question.answer;
+              const state = revealed
+                ? isAnswer
+                  ? "correct"
+                  : selected
+                    ? "wrong"
+                    : "idle"
+                : selected
+                  ? "selected"
+                  : "idle";
+              return (
+                <li key={i}>
+                  <button
+                    type="button"
+                    disabled={mode === "review" || (mode === "practice" && selectedIndex != null)}
+                    onClick={() => onSelect?.(i)}
+                    className={cn(
+                      "focus-ring w-full rounded-[12px] border px-4 py-3 text-left text-[15px] leading-relaxed transition-colors",
+                      state === "idle" &&
+                        "border-[color-mix(in_srgb,var(--foreground)_10%,transparent)] hover:border-[var(--accent)] hover:bg-[var(--accent-soft)]",
+                      state === "selected" &&
+                        "border-[var(--accent)] bg-[var(--accent-soft)]",
+                      state === "correct" &&
+                        "border-[var(--success)] bg-[var(--success-soft)]",
+                      state === "wrong" &&
+                        "border-[var(--danger)] bg-[var(--danger-soft)] shake"
+                    )}
+                  >
+                    <span className="mr-2 font-semibold text-[var(--ink-soft)]">
+                      {optionLabels[i]}
+                    </span>
+                    {opt}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+          {revealed ? (
+            <div
+              className={cn(
+                "mt-4 rounded-[12px] p-4 text-[14px] leading-relaxed",
+                correct
+                  ? "bg-[var(--success-soft)]"
+                  : "bg-[color-mix(in_srgb,var(--foreground)_6%,transparent)]"
+              )}
+            >
+              <p className="mb-1 font-semibold">
+                {correct ? "回答正确" : `正确答案 ${optionLabels[question.answer]}`}
+              </p>
+              <p className="text-[var(--ink-soft)]">{question.analysis}</p>
+            </div>
+          ) : null}
+        </div>
+      </div>
     </Card>
   );
-}
-
-export function useQuestionLocalAnswer(initial?: number | null) {
-  const [selected, setSelected] = useState<number | null>(initial ?? null);
-  return { selected, setSelected };
 }

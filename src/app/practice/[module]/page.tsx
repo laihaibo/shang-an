@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import { PageHeader } from "@/components/page-header";
 import { MODULES } from "@/lib/types";
 import PracticeModulePage from "./page-client";
 
@@ -10,5 +12,15 @@ export default function Page({
 }: {
   params: Promise<{ module: string }>;
 }) {
-  return <PracticeModulePage params={params} />;
+  return (
+    <Suspense
+      fallback={
+        <main>
+          <PageHeader title="刷题" backHref="/practice/" />
+        </main>
+      }
+    >
+      <PracticeModulePage params={params} />
+    </Suspense>
+  );
 }

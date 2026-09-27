@@ -37,10 +37,6 @@ export const MODULE_LABEL: Record<ModuleKey, string> = {
   common: "常识",
 };
 
-export function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
-}
-
 export async function copyText(text: string): Promise<boolean> {
   try {
     if (navigator.clipboard?.writeText) {

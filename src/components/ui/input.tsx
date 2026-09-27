@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, type InputHTMLAttributes } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import type { InputHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 export function Input({
@@ -31,22 +30,5 @@ export function Textarea({
       )}
       {...props}
     />
-  );
-}
-
-export function PasswordInput(props: InputHTMLAttributes<HTMLInputElement>) {
-  const [show, setShow] = useState(false);
-  return (
-    <div className="relative">
-      <Input type={show ? "text" : "password"} {...props} />
-      <button
-        type="button"
-        className="focus-ring absolute right-3 top-1/2 -translate-y-1/2 text-[var(--ink-soft)]"
-        onClick={() => setShow((s) => !s)}
-        aria-label={show ? "隐藏" : "显示"}
-      >
-        {show ? <EyeOff size={18} /> : <Eye size={18} />}
-      </button>
-    </div>
   );
 }

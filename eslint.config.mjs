@@ -1,18 +1,16 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import next from "eslint-config-next";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
+// eslint-config-next 16 起原生导出 flat config（含 next / next/typescript 与默认 ignores）
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...next,
   {
-    ignores: [".next/**", "out/**", "node_modules/**"],
+    ignores: [
+      ".next/**",
+      "out/**",
+      "node_modules/**",
+      ".tmp-icons/**",
+      "public/**",
+    ],
   },
 ];
 

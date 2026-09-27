@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "mimosa-finding-history/v1",
+  "runId": "20260927T003520139Z-21400-bc1b31d32e4f",
+  "runStatus": "inconclusive",
+  "errors": [
+    "candidate-select:src/app/mock/report/page.tsx: candidate_limit_exceeded: 9 changed reviewable file(s) were not scanned because the limit is 20",
+    "scan:src/lib/types.ts: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/lib/storage.ts: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/lib/store.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/components/confirm-dialog.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/app/me/page.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/components/question-view.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/app/practice/[module]/page-client.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/app/practice/[module]/page.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/app/mock/[id]/page-client.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/app/mock/page.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/app/page.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/app/search/page.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/content/questions/quantitative.ts: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/content/questions/judgment.ts: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/components/ui/input.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/components/bottom-nav.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/app/wrong/[id]/page.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+    "scan:src/app/interview/page.tsx: scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+  ],
+  "target": ".",
+  "revision": "434e879dd024037b3f27c15e781ea677d887b801",
+  "diffHash": "fbfb37ed0765a283cb8f8e11eff69b066044fc2b8fe757d346096d40f12af2b8",
+  "rulesVersion": "unavailable",
+  "recordedAt": "2026-09-27T00:35:20.139Z",
+  "timing": {
+    "startedAt": "2026-09-27T00:35:17.288Z",
+    "completedAt": "2026-09-27T00:35:20.139Z",
+    "durationMs": 2851
+  },
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0,
+    "modelCalls": 0,
+    "measurement": "known-zero"
+  },
+  "findings": {
+    "total": 1,
+    "bySeverity": {
+      "high": 1
+    },
+    "byStatus": {
+      "candidate": 1
+    }
+  },
+  "coverage": {
+    "status": "partial",
+    "reasonCounts": {
+      "candidate_limit_exceeded": 1,
+      "scanner_failed": 18,
+      "project_check_failed": 19
+    }
+  },
+  "evidenceBoundary": "static_only",
+  "immutableReport": ".mimosa/reports/task-review-sess_ddf024c8-077d-4f42-a3b0-24bbbe5a0c99-20260927T003520139Z-21400-bc1b31d32e4f.json"
+}

@@ -37,7 +37,7 @@ export default function SearchPage() {
           kind: "题",
           title: item.stem.slice(0, 48) + (item.stem.length > 48 ? "…" : ""),
           excerpt: item.tags.join(" · "),
-          href: `/practice/${item.module}/`,
+          href: `/practice/${item.module}/?q=${item.id}`,
           tag: MODULE_LABEL[item.module],
         });
       }

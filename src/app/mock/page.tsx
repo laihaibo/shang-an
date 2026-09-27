@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ClipboardCheck, NotebookPen, Timer } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
@@ -9,14 +10,27 @@ import { Badge } from "@/components/ui/badge";
 import { useStore } from "@/lib/store";
 import { standardMockPapers, questionMap } from "@/content/questions";
 import { MODULES } from "@/lib/types";
-import { MODULE_LABEL, accuracy } from "@/lib/utils";
+import { MODULE_LABEL, accuracy, formatDuration } from "@/lib/utils";
 
 export default function MockIndexPage() {
-  const { state, wrongCount, pendingReviewCount } = useStore();
+  const { state, ready, wrongCount, pendingReviewCount } = useStore();
+  const [now, setNow] = useState(0);
+
+  // 恢复卡片的剩余时间按秒刷新；now=0 时隐藏，避免渲染期取系统时间
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, []);
+
   const pendingIds = state.wrong
     .filter((w) => !w.mastered)
     .map((w) => w.questionId)
     .filter((id) => questionMap[id]);
+
+  const activeMock =
+    state.activeMock && now > 0 && now < state.activeMock.deadline
+      ? state.activeMock
+      : null;
 
   return (
     <main>
@@ -24,6 +38,26 @@ export default function MockIndexPage() {
         title="模拟考"
         description="标准卷限时训练；也可用待复盘错题组卷。交卷后按模块看正确率。"
       />
+
+      {activeMock ? (
+        <Link
+          href={`/mock/${activeMock.paper.id}/`}
+          className="focus-ring mb-3 flex items-center justify-between rounded-[20px] border border-[var(--accent)] bg-[var(--accent-soft)] p-4"
+        >
+          <div className="min-w-0">
+            <p className="text-[13px] font-medium text-[var(--accent)]">
+              有未完成的模考
+            </p>
+            <p className="mt-0.5 truncate text-[15px] font-medium">
+              {activeMock.paper.title} · 剩{" "}
+              {formatDuration(Math.floor((activeMock.deadline - now) / 1000))}
+            </p>
+          </div>
+          <span className="shrink-0 text-[14px] font-medium text-[var(--accent)]">
+            继续作答 →
+          </span>
+        </Link>
+      ) : null}
 
       <div className="space-y-3">
         {standardMockPapers.map((paper) => (
@@ -73,9 +107,11 @@ export default function MockIndexPage() {
                 错题组卷
               </h2>
               <p className="mt-1 text-[14px] text-[var(--ink-soft)]">
-                {pendingIds.length > 0
-                  ? `从 ${pendingIds.length} 道待复盘错题抽题，建议 20 分钟。`
-                  : "当前没有待复盘错题。先去刷题积累错题。"}
+                {!ready
+                  ? "读取错题本中…"
+                  : pendingIds.length > 0
+                    ? `从 ${pendingIds.length} 道待复盘错题抽题，建议 20 分钟。`
+                    : "当前没有待复盘错题。先去刷题积累错题。"}
               </p>
             </div>
             {pendingIds.length > 0 ? (
@@ -106,7 +142,7 @@ export default function MockIndexPage() {
               <Link
                 key={r.id}
                 href={`/mock/report/?id=${r.id}`}
-                className="glass focus-ring flex items-center justify-between rounded-[16px] px-4 py-3 text-[14px] hover:brightness-[1.03]"
+                className="glass focus-ring flex items-center justify-between rounded-[20px] px-4 py-3 text-[14px] hover:brightness-[1.03]"
               >
                 <span className="truncate">{r.title}</span>
                 <span className="ml-3 shrink-0 font-mono font-medium">

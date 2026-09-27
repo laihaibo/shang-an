@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import Link from "next/link";
 import {
   BookOpenCheck,
@@ -36,15 +37,18 @@ export default function HomePage() {
   } = useStore();
 
   const lastMock = state.mockResults[0];
-  const todayAttempts = state.attempts.filter((a) => {
-    const d = new Date(a.at);
-    const n = new Date();
-    return (
-      d.getFullYear() === n.getFullYear() &&
-      d.getMonth() === n.getMonth() &&
-      d.getDate() === n.getDate()
-    );
-  }).length;
+  const todayAttempts = useMemo(() => {
+    const now = new Date();
+    const isToday = (ts: number) => {
+      const d = new Date(ts);
+      return (
+        d.getFullYear() === now.getFullYear() &&
+        d.getMonth() === now.getMonth() &&
+        d.getDate() === now.getDate()
+      );
+    };
+    return state.attempts.filter((a) => isToday(a.at)).length;
+  }, [state.attempts]);
 
   return (
     <main>
